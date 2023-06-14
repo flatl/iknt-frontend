@@ -17,6 +17,15 @@ export default Vue.extend({
   
   components: { IkntHeader, IkntFooter, IkntContent },
 
+  async asyncData({ store }) {
+    await store.dispatch('news/getNews');
+  },
+
+  head() {
+    return {
+      title: 'Институт Компьютерных Наук и Технологий Пермского Университета',
+    };
+  },
 });
 </script>
 

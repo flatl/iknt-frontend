@@ -7,7 +7,7 @@
       </a>
     </p>
     <p class="footer__title">
-      Пермский государственный национальный исследовательский университет <span class="copyright">&copy;</span> 2023
+      Пермский государственный национальный исследовательский университет <span class="special-symbol">&copy;</span> 2023
     </p>
     <nuxt-link to="/policy" class="footer__policy">
       Политика по обработке персональных данных

@@ -15,9 +15,9 @@
           :key="index"
           class="header-menu__item"
         >
-          <nuxt-link :to="item.link" class="header-menu__item__link">
+          <a :href="item.link" class="header-menu__item__link">
             {{ item.title }}
-          </nuxt-link>
+          </a>
         </li>
       </ul>
     </div>
@@ -39,27 +39,27 @@ export default Vue.extend({
       items: [
         {
           title: 'О ПРОГРАММЕ',
-          link: '/program',
+          link: '#program',
         },
         {
           title: 'НОВОСТИ И СОБЫТИЯ',
-          link: '/news',
+          link: '#news',
         },
         {
           title: 'ФАКУЛЬТЕТ',
-          link: '/faculty',
+          link: '#faculty',
         },
         {
           title: 'СТИПЕНДИИ',
-          link: '/scholarship',
+          link: '#scholarship',
         },
         {
           title: 'ОТЗЫВЫ ВЫПУСКНИКОВ',
-          link: '/reviews',
+          link: '#reviews',
         },
         {
           title: 'ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ',
-          link: '/faq',
+          link: '#faq',
         },
       ],
     };
@@ -102,10 +102,14 @@ export default Vue.extend({
     height: auto;
     padding: .5rem;
     grid-gap: .5rem;
+    border-radius: 1.5rem;
     background-color: var(--c-white);
   }
 
   &__close-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
@@ -119,6 +123,10 @@ export default Vue.extend({
     letter-spacing: 0.05em;
     text-transform: uppercase;
     padding: 14px 1rem;
+
+    &__link {
+      color: var(--c-black)
+    }
   }
 }
 </style>
