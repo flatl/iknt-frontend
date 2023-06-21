@@ -48,6 +48,9 @@
         </table>
         <div class="main__program__price">
           <iknt-animation class="main__program__price__background" />
+          <div class="main__program__price__background-overlay">
+            <div class="main__program__price__background-overlay__gradient" />
+          </div>
           <div class="main__program__price__container">
             <p class="main__program__price__label small-text">
               стоимость контрактного обучения (год)
@@ -198,7 +201,7 @@ export default Vue.extend({
     },
 
     slidesPerPage() {
-      const SLIDE_SIZE = 420;
+      const SLIDE_SIZE = 410;
       const MAX_CONTAINER_SIZE = 1760;
       const SLIDE_GAP = 28;
       
@@ -313,8 +316,11 @@ export default Vue.extend({
       height: 2.5rem;
       border-radius: 100px;
       background-color: var(--c-white);
+      transition: background-color .15s linear;
 
       &:hover {
+        background-color: var(--c-dark-blue);
+
         .main__logo__button__text {
           transform: translateY(-2.5rem);
         }
@@ -337,14 +343,13 @@ export default Vue.extend({
         align-items: center;
         width: 100%;
         height: 100%;
-        transition: transform .10s ease-out;
+        transition: transform .15s ease-out;
         z-index: 1;
       }
 
       &__inner {
         color: var(--c-white);
         transform: translateY(2.5rem);
-        background-color: var(--c-dark-blue);
       }
     }
   }
@@ -385,12 +390,27 @@ export default Vue.extend({
     }
 
     &__price {
+      overflow: hidden;
       position: relative;
       width: 100%;
       border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 1.5rem;
-      background: radial-gradient(100% 100% at 100% 100%, rgba(26, 102, 255, 0.5) 0%, rgba(26, 102, 255, 0) 100%);
       cursor: pointer;
+
+      &__background-overlay {
+        position: absolute;
+        z-index: 4;
+        width: 100%;
+        height: 100%;
+        transition: opacity .5s ease-out;
+        background-color: var(--c-black);
+      
+        &__gradient {
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(100% 100% at 100% 100%, rgba(26, 102, 255, 0.5) 0%, rgba(26, 102, 255, 0) 100%);
+        }
+      }
 
       &:hover {
         .main__program__price__background {
@@ -400,13 +420,17 @@ export default Vue.extend({
         .main__program__price__hidden-text {
           display: inline;
         }
+
+        .main__program__price__background-overlay {
+          opacity: 0;
+        }
       }
 
       &__container {
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 4;
+        z-index: 5;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -416,7 +440,7 @@ export default Vue.extend({
       }
 
       &__background {
-        visibility: hidden;
+        visibility: visible;
         position: absolute;
         z-index: 3;
         top: 0;
@@ -508,6 +532,7 @@ export default Vue.extend({
           background-color: var(--c-white);
 
           &__text {
+            color: var(--c-dark-blue);
             display: inline;
           }
 
@@ -547,7 +572,7 @@ export default Vue.extend({
         &__text {
           font-weight: 700;
           text-transform: uppercase;
-          color: var(--c-dark-blue);
+          color: var(--c-white);
           display: none;
           transition: display .15s ease-out;
         }
