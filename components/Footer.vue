@@ -3,7 +3,7 @@
     <p class="footer__address">
       614068, Пермь, ул. Букирева, 15,&nbsp;
       <a href="mailto:info@psu.ru" class="footer__address__mail">
-        info@psu.ru
+        info<span class="special-symbol">@</span>psu.ru
       </a>
     </p>
     <p class="footer__title">

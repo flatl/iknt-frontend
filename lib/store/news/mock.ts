@@ -1,4 +1,4 @@
-import { Article } from '../../lib/api';
+import { Article } from './../../api';
 
 export const mockArticles: Array<Article> = [
   {

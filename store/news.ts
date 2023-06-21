@@ -1,6 +1,6 @@
-import { State, Actions, Getters } from './models';
-import { mockArticles } from './mock';
-import { Article } from '../../lib/api';
+import { State, Actions, Getters } from '../lib/store/news/models';
+import { mockArticles } from '../lib/store/news/mock';
+import { Article } from '../lib/api';
 
 
 export const state: () => State = () => ({
@@ -8,12 +8,9 @@ export const state: () => State = () => ({
 });
 
 export const actions: Actions = {
-  getNews(ctx, payload) {
+  getNews({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      setTimeout(() =>
-        ctx.commit('setNews', mockArticles)
-      );
-
+      commit('setNews', mockArticles);
       resolve(true);
     });
   },

@@ -1,4 +1,4 @@
-import { Article } from '../../lib/api';
+import { Article } from './../../api';
 import { ActionContext, ActionPayload } from 'vuex';
 
 export interface State {

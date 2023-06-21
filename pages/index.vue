@@ -17,13 +17,21 @@ export default Vue.extend({
   
   components: { IkntHeader, IkntFooter, IkntContent },
 
-  async asyncData({ store }) {
+  fetchOnServer: false,
+
+  async fetch({ store }) {
     await store.dispatch('news/getNews');
   },
 
   head() {
     return {
       title: 'Институт Компьютерных Наук и Технологий Пермского Университета',
+      script: [
+        {
+          src: 'https://cdn.jsdelivr.net/npm/regl@1.3.1/dist/regl.min.js',
+          defer: true,
+        },
+      ],
     };
   },
 });

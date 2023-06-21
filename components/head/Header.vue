@@ -1,13 +1,13 @@
 <template>
   <header class="head">
-    <div class="head__menu-wrapper">
-      <header-menu class="head__menu" />
+    <div class="head__embleme-wrapper">
+      <emblem-thumb class="head__embleme" />
     </div>
     <div class="head__logo-wrapper">
       <logo class="head__logo" />
     </div>
-    <div class="head__embleme-wrapper">
-      <emblem-thumb class="head__embleme" />
+    <div class="head__menu-wrapper">
+      <header-menu class="head__menu" />
     </div>
   </header>
 </template>
@@ -38,8 +38,9 @@ export default Vue.extend({
 
   &__menu {
     position: fixed;
+    z-index: 5;
     top: 1rem;
-    left: 1rem;
+    right: 1rem;
   }
 
   &__logo-wrapper {
@@ -50,7 +51,7 @@ export default Vue.extend({
 
   &__embleme-wrapper {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
   }
 }

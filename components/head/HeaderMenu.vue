@@ -1,9 +1,5 @@
 <template>
   <div class="header-menu">
-    <button class="header-menu__button" @click="toggleOpened">
-      <burger-opened-icon v-if="isOpened" />
-      <burger-closed-icon v-else />
-    </button>
     <div v-if="isOpened" class="header-menu__container">
       <button class="header-menu__close-button" @click="close">
         <close-icon />
@@ -21,6 +17,19 @@
         </li>
       </ul>
     </div>
+    <button
+      :class="[
+        'header-menu__button',
+        { 'enter-animation': enableEnterButtonAnimation },
+        { 'leave-animation': enableLeaveButtonAnimation }
+      ]"
+      @click="toggleOpened"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+    >
+      <!-- <burger-opened-icon v-show="showOpenedIcon" /> -->
+      <burger-closed-icon class="header-menu__button__thumb" />
+    </button>
   </div>
 </template>
 
@@ -36,6 +45,8 @@ export default Vue.extend({
   data() {
     return {
       isOpened: false,
+      enableEnterButtonAnimation: false,
+      enableLeaveButtonAnimation: false,
       items: [
         {
           title: 'О ПРОГРАММЕ',
@@ -70,8 +81,22 @@ export default Vue.extend({
       this.isOpened = !this.isOpened;
     },
 
+    handleMouseEnter() {
+      this.enableEnterButtonAnimation = true;
+      this.enableLeaveButtonAnimation = false;
+    },
+
+    handleMouseLeave() {
+      if (!this.isOpened) {
+        this.enableEnterButtonAnimation = false;
+        this.enableLeaveButtonAnimation = true;
+      }
+    },
+
     close() {
       this.isOpened = false;
+      this.enableEnterButtonAnimation = false;
+      this.enableLeaveButtonAnimation = true;
     },
   }
 });
@@ -93,6 +118,31 @@ export default Vue.extend({
     height: 3rem;
     border-radius: 50%;
     background-color: var(--c-white);
+
+    &__thumb {
+      transition: transform .15s linear;
+    }
+
+    &.enter-animation {
+      .header-menu__button__thumb {
+        transform: rotateZ(45deg);
+
+        path {
+          fill: var(--c-dark-blue);
+        }
+      }
+    }
+
+    &.leave-animation {
+      .header-menu__button__thumb {
+        transform: rotateZ(0);
+
+        path {
+          fill: var(--c-black);
+          animation: fill-anim .15s 1;
+        }
+      }
+    }
   }
 
   &__container {
@@ -107,6 +157,7 @@ export default Vue.extend({
   }
 
   &__close-button {
+    align-self: flex-end;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -129,4 +180,38 @@ export default Vue.extend({
     }
   }
 }
+
+@keyframes fill-anim {
+  0% {
+    fill: var(--c-dark-blue);
+  }
+
+  90% {
+    fill: var(--c-dark-blue);
+  }
+
+  100% {
+    fill: var(--c-black);
+  }
+}
+
+// @keyframes burger-animation {
+//   0% {
+//     transform: rotateY(0);
+//   }
+
+//   100% {
+//     transform: rotateZ(45deg);
+//   }
+// }
+
+// @keyframes burger-points-animation {
+//   80% {
+//     fill: var(--c-black);
+//   }
+
+//   100% {
+//     fill: var(--c-dark-blue);
+//   }
+// }
 </style>
