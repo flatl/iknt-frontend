@@ -72,45 +72,35 @@
         </div>
       </div>
     </div>
-    <div class="main__news">
-      <a name="news" />
-      <div class="flex">
-        <h2 class="main__news__title title">Новости и события</h2>
-        <div class="main__news__carousel-buttons">
-          <button class="main__news__carousel-button prev" @click="handleMovePrevSlide">
-            <arrow-right />
-          </button>
-          <button class="main__news__carousel-button next" @click="handleMoveNextSlide">
-            <arrow-right />
+    <iknt-carousel
+      :slide-width="418"
+      :slide-gap="28"
+      title="Новости и события"
+      hash-link="news"
+      class="main__news"
+    >
+      <nuxt-link
+        v-for="article of news"
+        :key="article.id"
+        :to="`/news/${article.id}`"
+        class="main__news__article slide"
+      >
+        <span class="main__news__article__date small-text">
+          {{ humanizeDate(article.date) }}
+        </span>
+        <h3 class="main__news__article__title subtitle">
+          {{ article.title }}
+        </h3>
+        <div class="main__news__article__link">
+          <button class="main__news__article__button">
+            <span class="main__news__article__button__text small-text">
+              подробнее
+            </span>
+            <arrow-right class="main__news__article__button__thumb" />
           </button>
         </div>
-      </div>
-      <div class="main__news__carousel">
-        <ssr-carousel ref="carousel" :slides-per-page="slidesPerPage">
-          <nuxt-link
-            v-for="article of news"
-            :key="article.id"
-            :to="`/news/${article.id}`"
-            class="main__news__article slide"
-          >
-            <span class="main__news__article__date small-text">
-              {{ humanizeDate(article.date) }}
-            </span>
-            <h3 class="main__news__article__title subtitle">
-              {{ article.title }}
-            </h3>
-            <div class="main__news__article__link">
-              <button class="main__news__article__button">
-                <span class="main__news__article__button__text small-text">
-                  подробнее
-                </span>
-                <arrow-right class="main__news__article__button__thumb" />
-              </button>
-            </div>
-          </nuxt-link>
-        </ssr-carousel>
-      </div>
-    </div>
+      </nuxt-link>
+    </iknt-carousel>
     <div class="main__background-container">
       <div class="main__banner">
         <a name="faculty" />
@@ -133,10 +123,15 @@
           </div>
         </div>
         <div class="main__banner__right">
-          <button class="main__banner__download">
+          <a href="/IKNT_2023_plan.pdf" download class="main__banner__download">
             <download-icon />
-            скачать план обучения
-          </button>
+            <span class="main__banner__download__text">
+              скачать план обучения
+            </span>
+            <span class="main__banner__download__meta">
+              PDF, 150 KB
+            </span>
+          </a>
         </div>
       </div>
       <div class="main__companies">
@@ -155,13 +150,60 @@
         </div>
       </div>
     </div>
+    <iknt-carousel
+      :slide-width="720"
+      :slide-gap="32"
+      title="Что говорят выпускники"
+      hash-link="reviews"
+      class="main__reviews"
+    >
+      <div
+        v-for="review of reviews"
+        :key="review.id"
+        class="main__reviews__review"
+      >
+        <p class="main__reviews__review__text text">
+          {{ review.text }}
+        </p>
+        <div class="main__reviews__review__meta">
+          <span class="main__reviews__review__author small-text">
+            {{ review.author }}
+          </span>
+          <span class="ellipse" />
+          <span class="main__reviews__review__year small-text">
+            {{ review.year }}
+          </span>
+        </div>
+      </div>
+    </iknt-carousel>
+    <div class="main__faq">
+      <a name="faq" />
+      <h3 class="main__faq__title title">
+        Часто задаваемые вопросы
+      </h3>
+      <div class="main__faq__list">
+        <details
+          v-for="faqItem of faq"
+          :key="faqItem.id"
+          class="main__faq__item"
+        >
+          <summary class="main__faq__item__question subtitle">
+            {{ faqItem.question }}<span class="special-symbol">?</span>
+          </summary>
+          <p class="main__faq__item__answer text">
+            {{ faqItem.answer }}
+          </p>
+        </details>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import { programOptions, companies } from '@/lib/mainPageStructures';
-import IkntAnimation from '@/components/IkntAnimation.vue';
+import { programOptions, companies, reviews, faq } from '@/lib/mainPageStructures';
+import IkntAnimation from '@/components/ui/IkntAnimation.vue';
+import IkntCarousel from '@/components/ui/IkntCarousel.vue';
 import Emblem from '@/assets/icons/emblem.svg?inline';
 import Logo from '@/assets/img/logo.svg?inline';
 import LogoText from '@/assets/icons/logo-text.svg?inline';
@@ -171,14 +213,10 @@ import DownloadIcon from '@/assets/icons/download.svg?inline';
 
 import { Getters } from '@/lib/store/news/models';
 
-interface Carousel extends Vue {
-  back: Function;
-  next: Function;
-};
-
 export default Vue.extend({
   components: {
     IkntAnimation,
+    IkntCarousel,
     Emblem,
     Logo,
     LogoText,
@@ -191,7 +229,8 @@ export default Vue.extend({
     return {
       programOptions,
       companies,
-      windowWidth: 1920,
+      reviews,
+      faq,
     };
   },
 
@@ -199,41 +238,9 @@ export default Vue.extend({
     news(): Getters["list"] {
       return this.$store.getters['news/list'];
     },
-
-    slidesPerPage() {
-      const SLIDE_SIZE = 410;
-      const MAX_CONTAINER_SIZE = 1760;
-      const SLIDE_GAP = 28;
-      
-      const windowSize =
-        this.windowWidth > MAX_CONTAINER_SIZE ? MAX_CONTAINER_SIZE : this.windowWidth;
-
-      return Math.floor(windowSize / (SLIDE_SIZE + SLIDE_GAP));
-    },
-  },
-
-  mounted() {
-    this.windowWidth = window.innerWidth;
-    window.addEventListener('resize', this.handleWindowResize); 
-  },
-
-  destroyed() {
-    window.removeEventListener('resize', this.handleWindowResize);
   },
 
   methods: {
-    handleMovePrevSlide() {
-      (this.$refs.carousel as Carousel).back();
-    },
-
-    handleMoveNextSlide() {
-      (this.$refs.carousel as Carousel).next();
-    },
-
-    handleWindowResize() {
-      this.windowWidth = window.innerWidth;
-    },
-
     humanizeDate(d: String) {
       return d;
     },
@@ -289,7 +296,7 @@ export default Vue.extend({
       grid-template-columns: 40% 20% 40%;
       width: 100%;
       max-height: 108px;
-      padding: 0 5rem;
+      padding: 0;
 
       &__container-1 {
         display: flex;
@@ -480,43 +487,6 @@ export default Vue.extend({
   }
 
   &__news {
-    display: flex;
-    flex-direction: column;
-    grid-gap: 2rem;
-
-    &__carousel-buttons {
-      display: flex;
-      align-items: center;
-      grid-gap: 0.5rem;
-    }
-
-    &__carousel-button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 72px;
-      height: 36px;
-      border-radius: 100px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-
-      &:hover {
-        background-color: var(--c-white);
-
-        svg path {
-          fill: var(--c-dark-blue);
-        }
-      }
-
-      &.prev {
-        transform: rotate(180deg);
-      }
-
-      svg {
-        width: 1rem;
-        height: 1rem;
-      }
-    }
-
     &__article {
       display: grid;
       align-items: flex-start;
@@ -667,23 +637,47 @@ export default Vue.extend({
       display: flex;
       flex-direction: column;
       align-items: center;
-      grid-gap: 1.5rem;
       width: 233px;
+      height: 116px;
       padding: 1.5rem;
       border-radius: .5rem;
+      transition: height .3s ease-out;
       background-color: var(--c-white);
-      transition: color 1s ease-out;
 
       &:hover {
-        color: var(--c-dark-blue);
+        height: 132px;
 
         svg path {
           fill: var(--c-dark-blue);
         }
+
+        .main__banner__download__text {
+          color: var(--c-dark-blue);
+        }
+
+        .main__banner__download__meta {
+          display: inline;
+        }
       }
 
-      svg path {
-        transition: color .4s ease-out;
+      svg {
+        min-width: 2rem;
+        min-height: 2rem;
+
+        path {
+          transition: fill .3s ease-out;
+        }
+      }
+
+      &__text {
+        transition: color .3s ease-out;
+        margin-top: 1.5rem;
+      }
+
+      &__meta {
+        display: none;
+        margin-top: 0.25rem;
+        opacity: 0.5;
       }
     }
   }
@@ -723,6 +717,123 @@ export default Vue.extend({
 
       &:nth-of-type(4n) {
         border-right: none;
+      }
+    }
+  }
+
+  &__reviews {
+    &__review {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      grid-gap: 1rem;
+      height: 400px;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      background-color: var(--c-cream-white);
+
+      .ellipse {
+        width: 2px;
+        height: 2px;
+        border-radius: 50%;
+        background-color: var(--c-black);
+      }
+
+      &__text {
+        line-height: 1.5rem;
+        color: var(--c-black);
+      }
+
+      &__meta {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        grid-gap: 0.75rem;
+      }
+
+      &__author {
+        font-weight: 500;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        color: var(--c-black);
+      }
+
+      &__year {
+        font-weight: 500;
+        letter-spacing: .05em;
+        color: var(--c-black);
+        text-transform: uppercase;
+        opacity: .5;
+      }
+    }
+  }
+
+  &__faq {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 2rem;
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      grid-gap: .25rem;
+    }
+
+    &__item {
+      position: relative;
+      width: 100%;
+      transition:
+        background-color .3s ease-out
+        height .3s ease-out;
+      border-radius: 0.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+
+        .main__faq__item__question::after {
+          opacity: 1;
+        }
+      }
+
+      &[open] {
+        background-color: rgba(255, 255, 255, 0.15);
+
+        .main__faq__item__question::after {
+          transform: rotateZ(135deg);
+          opacity: 1;
+        }
+      }
+
+      &__question {
+        padding: 26px calc(1.5rem + 26px) 26px 26px;
+        user-select: none;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 28px;
+          right: 26px;
+          width: 1.5rem;
+          height: 1.5rem;
+          opacity: 0.5;
+          transition:
+            transform .3s ease-out,
+            opacity .3s ease-out;
+          background-image: url('~@/assets/icons/plus.svg');
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+        }
+      }
+        
+
+      &__answer {
+        width: 100%;
+        max-width: 940px;
+        padding: 26px;
+        padding-top: 1.5rem;
       }
     }
   }

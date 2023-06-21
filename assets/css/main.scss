@@ -54,6 +54,19 @@ p {
   padding: 0;
 }
 
+summary::marker,
+summary::-moz-list-bullet,
+summary::-webkit-details-marker {
+  content: '';
+  display: none;
+  list-style-type: none;
+  list-style: none;
+}
+
+summary {
+  list-style: none;
+}
+
 #__nuxt,
 #__layout {
   width: 100%;

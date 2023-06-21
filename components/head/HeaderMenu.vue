@@ -173,9 +173,12 @@ export default Vue.extend({
     line-height: 100%;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    padding: 14px 1rem;
 
     &__link {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      padding: 14px 1rem;
       color: var(--c-black)
     }
   }
