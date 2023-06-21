@@ -1,9 +1,5 @@
 <template>
   <div class="header-menu">
-    <button class="header-menu__button" @click="toggleOpened">
-      <burger-opened-icon v-if="isOpened" />
-      <burger-closed-icon v-else />
-    </button>
     <div v-if="isOpened" class="header-menu__container">
       <button class="header-menu__close-button" @click="close">
         <close-icon />
@@ -15,12 +11,25 @@
           :key="index"
           class="header-menu__item"
         >
-          <nuxt-link :to="item.link" class="header-menu__item__link">
+          <a :href="item.link" class="header-menu__item__link">
             {{ item.title }}
-          </nuxt-link>
+          </a>
         </li>
       </ul>
     </div>
+    <button
+      :class="[
+        'header-menu__button',
+        { 'enter-animation': enableEnterButtonAnimation },
+        { 'leave-animation': enableLeaveButtonAnimation }
+      ]"
+      @click="toggleOpened"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+    >
+      <!-- <burger-opened-icon v-show="showOpenedIcon" /> -->
+      <burger-closed-icon class="header-menu__button__thumb" />
+    </button>
   </div>
 </template>
 
@@ -36,30 +45,32 @@ export default Vue.extend({
   data() {
     return {
       isOpened: false,
+      enableEnterButtonAnimation: false,
+      enableLeaveButtonAnimation: false,
       items: [
         {
           title: 'О ПРОГРАММЕ',
-          link: '/program',
+          link: '#program',
         },
         {
           title: 'НОВОСТИ И СОБЫТИЯ',
-          link: '/news',
+          link: '#news',
         },
         {
           title: 'ФАКУЛЬТЕТ',
-          link: '/faculty',
+          link: '#faculty',
         },
         {
           title: 'СТИПЕНДИИ',
-          link: '/scholarship',
+          link: '#scholarship',
         },
         {
           title: 'ОТЗЫВЫ ВЫПУСКНИКОВ',
-          link: '/reviews',
+          link: '#reviews',
         },
         {
           title: 'ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ',
-          link: '/faq',
+          link: '#faq',
         },
       ],
     };
@@ -70,8 +81,22 @@ export default Vue.extend({
       this.isOpened = !this.isOpened;
     },
 
+    handleMouseEnter() {
+      this.enableEnterButtonAnimation = true;
+      this.enableLeaveButtonAnimation = false;
+    },
+
+    handleMouseLeave() {
+      if (!this.isOpened) {
+        this.enableEnterButtonAnimation = false;
+        this.enableLeaveButtonAnimation = true;
+      }
+    },
+
     close() {
       this.isOpened = false;
+      this.enableEnterButtonAnimation = false;
+      this.enableLeaveButtonAnimation = true;
     },
   }
 });
@@ -93,6 +118,31 @@ export default Vue.extend({
     height: 3rem;
     border-radius: 50%;
     background-color: var(--c-white);
+
+    &__thumb {
+      transition: transform .15s linear;
+    }
+
+    &.enter-animation {
+      .header-menu__button__thumb {
+        transform: rotateZ(45deg);
+
+        path {
+          fill: var(--c-dark-blue);
+        }
+      }
+    }
+
+    &.leave-animation {
+      .header-menu__button__thumb {
+        transform: rotateZ(0);
+
+        path {
+          fill: var(--c-black);
+          animation: fill-anim .15s 1;
+        }
+      }
+    }
   }
 
   &__container {
@@ -102,10 +152,15 @@ export default Vue.extend({
     height: auto;
     padding: .5rem;
     grid-gap: .5rem;
+    border-radius: 1.5rem;
     background-color: var(--c-white);
   }
 
   &__close-button {
+    align-self: flex-end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
@@ -119,6 +174,44 @@ export default Vue.extend({
     letter-spacing: 0.05em;
     text-transform: uppercase;
     padding: 14px 1rem;
+
+    &__link {
+      color: var(--c-black)
+    }
   }
 }
+
+@keyframes fill-anim {
+  0% {
+    fill: var(--c-dark-blue);
+  }
+
+  90% {
+    fill: var(--c-dark-blue);
+  }
+
+  100% {
+    fill: var(--c-black);
+  }
+}
+
+// @keyframes burger-animation {
+//   0% {
+//     transform: rotateY(0);
+//   }
+
+//   100% {
+//     transform: rotateZ(45deg);
+//   }
+// }
+
+// @keyframes burger-points-animation {
+//   80% {
+//     fill: var(--c-black);
+//   }
+
+//   100% {
+//     fill: var(--c-dark-blue);
+//   }
+// }
 </style>

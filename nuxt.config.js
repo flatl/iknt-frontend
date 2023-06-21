@@ -33,6 +33,7 @@ export default {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     ['@nuxtjs/svg'],
+    'vue-ssr-carousel/nuxt'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

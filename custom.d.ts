@@ -8,3 +8,7 @@ declare module '*.svg?inline' {
   export default filePath;
 }
 
+declare module 'vue-carousel' {
+  export const Carousel: Vue;
+  export const Slider: Vue;
+}
