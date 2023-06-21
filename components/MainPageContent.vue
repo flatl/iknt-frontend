@@ -399,6 +399,8 @@ export default Vue.extend({
 
       &__background-overlay {
         position: absolute;
+        top: 0;
+        left: 0;
         z-index: 4;
         width: 100%;
         height: 100%;
