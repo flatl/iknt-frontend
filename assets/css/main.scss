@@ -73,6 +73,10 @@ summary {
   min-height: 100vh;
 }
 
+#__layout {
+  overflow: hidden;
+}
+
 .special-symbol {
   font-family: Arial,
     "Helvetica Neue",
@@ -107,4 +111,19 @@ summary {
   font-weight: 500;
   line-height: 16px;
   color: var(--c-white);
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;  
+  }
+
+  .subtitle {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--c-white);  
+  }
 }

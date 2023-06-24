@@ -142,5 +142,28 @@ export default Vue.extend({
       height: 1rem;
     }
   }
+
+  ::v-deep .ssr-carousel-mask {
+    overflow: visible;
+  }
+}
+
+@media (max-width: 600px) {
+  .iknt-carousel {
+    grid-gap: 0.5rem;
+
+    &__top {
+      flex-direction: column;
+      grid-gap: 1rem;
+    }
+
+    &__title {
+      align-self: flex-start;
+    }
+
+    &__buttons {
+      align-self: flex-end;
+    }
+  }
 }
 </style>

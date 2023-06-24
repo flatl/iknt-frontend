@@ -838,4 +838,104 @@ export default Vue.extend({
     }
   }
 }
+
+@media (max-width: 991px) {
+  .main {
+    &__logo {
+      padding-bottom: .5rem;
+
+      &__embleme-wrapper {
+        width: calc(100vh - 244px);
+        height: calc(100vh - 244px);
+        max-width: min(500px, calc(100vw - 2rem));
+        max-height: min(500px, calc(100vw - 2rem));
+      }
+
+      &__embleme {
+        width: 100% !important;
+        height: 100% !important;
+
+        &__thumb {
+          width: 50%;
+          height: 50%;
+        }
+      }
+
+      &__bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: min-content;
+        max-height: unset;
+        grid-gap: 1rem;
+
+        &__container-1 {
+          align-self: flex-start;
+        }
+      }
+    }
+
+    &__program {
+      &__container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &__price {
+        height: 288px;
+      }
+    }
+
+    &__banner {
+      display: flex;
+      flex-direction: column;
+      background-image: url('~@/assets/img/abstract-hueta.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      &__left,
+      &__right {
+        width: 100%;
+        min-height: unset;
+        background-image: none;
+      }
+
+      &__left {
+        grid-gap: 2rem;
+
+        &__bottom {
+          grid-gap: 1rem;
+        }
+      }
+    }
+
+    &__companies {
+      &__container {
+        grid-template-columns: repeat(2, 50%);
+        grid-template-rows: repeat(4, 1fr);
+      }
+    }
+
+    &__reviews {
+      &__review {
+        height: auto;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .main {
+    grid-gap: 4rem;
+    padding: 0 1rem;
+
+    &__companies {
+      &__container {
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(8, 1fr);
+      }
+    }
+  }
+}
 </style>
