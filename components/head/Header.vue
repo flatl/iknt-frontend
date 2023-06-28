@@ -38,7 +38,7 @@ export default Vue.extend({
 
   &__menu {
     position: fixed;
-    z-index: 5;
+    z-index: 6;
     top: 1rem;
     right: 1rem;
   }

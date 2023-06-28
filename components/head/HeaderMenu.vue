@@ -1,5 +1,5 @@
 <template>
-  <div class="header-menu">
+  <div :class="['header-menu', { opened: isOpened }]">
     <div v-if="isOpened" class="header-menu__container">
       <button class="header-menu__close-button" @click="close">
         <close-icon />
@@ -173,9 +173,12 @@ export default Vue.extend({
     line-height: 100%;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    padding: 14px 1rem;
 
     &__link {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      padding: 14px 1rem;
       color: var(--c-black)
     }
   }
@@ -195,23 +198,21 @@ export default Vue.extend({
   }
 }
 
-// @keyframes burger-animation {
-//   0% {
-//     transform: rotateY(0);
-//   }
+@media (max-width: 600px) {
+  .header-menu {
+    &.opened {
+      position: static;
 
-//   100% {
-//     transform: rotateZ(45deg);
-//   }
-// }
-
-// @keyframes burger-points-animation {
-//   80% {
-//     fill: var(--c-black);
-//   }
-
-//   100% {
-//     fill: var(--c-dark-blue);
-//   }
-// }
+      .header-menu__container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        z-index: 6;
+      }
+    }
+  }
+}
 </style>

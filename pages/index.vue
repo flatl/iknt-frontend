@@ -7,20 +7,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 import IkntHeader from '@/components/head/Header.vue';
 import IkntFooter from '@/components/Footer.vue';
 import IkntContent from '@/components/MainPageContent.vue';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'IndexPage',
   
   components: { IkntHeader, IkntFooter, IkntContent },
 
-  fetchOnServer: false,
-
-  async fetch({ store }) {
-    await store.dispatch('news/getNews');
+  async fetch() {
+    const limit = 10;
+    const response = await this.$api.getArticles(limit);
+    if (response.success) {
+      this.$store.dispatch('news/setNews', response.data);
+    }
   },
 
   head() {

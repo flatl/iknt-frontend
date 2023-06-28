@@ -41,6 +41,7 @@
   }
 
   &__title {
+    text-align: center;
     opacity: .5;
   }
 
@@ -49,8 +50,40 @@
     color: var(--c-white);
   }
 
+  &__address {
+    text-align: left;
+  }
+
   &__policy {
     text-decoration: underline;
+    text-align: right;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+
+    &__policy {
+      text-align: center;
+      order: 1;
+    }
+
+    &__address {
+      text-align: center;
+      display: inline-flex;
+      justify-content: center;
+      order: 2;
+
+      &__mail {
+        text-align: center;
+      }
+    }
+
+    &__title {
+      order: 3;
+    }
   }
 }
 </style>

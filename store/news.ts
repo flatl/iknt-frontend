@@ -7,12 +7,9 @@ export const state: () => State = () => ({
   list: [],
 });
 
-export const actions: Actions = {
-  getNews({ commit }, payload) {
-    return new Promise((resolve, reject) => {
-      commit('setNews', mockArticles);
-      resolve(true);
-    });
+export const actions = {
+  setNews({ commit }, news) {
+    commit('setNews', news);
   },
 };
 
