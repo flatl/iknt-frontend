@@ -16,6 +16,12 @@ export default {
     ]
   },
 
+  env: {
+    apiUrl: process.env.apiUrl || 'http://localhost:5000',
+    imagesUrl: process.env.imagesUrl ||
+      (process.env.NODE_ENV === 'development' ? 'http://localhost:5000/images/' : 'http://localhost:5000/images')
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/css/main.scss'
@@ -23,6 +29,11 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    './plugins/vuelidate.ts',
+    './plugins/cookies.ts',
+    './plugins/api.ts',
+    './plugins/ssr-carousel.js',
+    './plugins/tiptap.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -40,6 +51,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/toast',
+    'cookie-universal-nuxt'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

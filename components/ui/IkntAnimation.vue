@@ -11,8 +11,13 @@ import createAnimation from '@/lib/animation/index';
 
 export default Vue.extend({
   mounted() {
-    const canvasEl = this.$refs.canvas;
-    createAnimation(canvasEl);
+    const interval = setInterval(() => {
+      if ('createREGL' in globalThis) {
+        clearInterval(interval);
+        const canvasEl = this.$refs.canvas;
+        createAnimation(canvasEl);
+      }
+    }, 100);
   },
 });
 </script>

@@ -73,6 +73,7 @@
       </div>
     </div>
     <iknt-carousel
+      v-if="news.length"
       :slide-width="418"
       :slide-gap="28"
       title="Новости и события"
@@ -86,7 +87,7 @@
         class="main__news__article slide"
       >
         <span class="main__news__article__date small-text">
-          {{ humanizeDate(article.date) }}
+          {{ humanizeDate(article.datetime) }}
         </span>
         <h3 class="main__news__article__title subtitle">
           {{ article.title }}
@@ -200,8 +201,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 import { programOptions, companies, reviews, faq } from '@/lib/mainPageStructures';
+import { humanizeDate } from '@/lib/helpers';
 import IkntAnimation from '@/components/ui/IkntAnimation.vue';
 import IkntCarousel from '@/components/ui/IkntCarousel.vue';
 import Emblem from '@/assets/icons/emblem.svg?inline';
@@ -210,10 +212,10 @@ import LogoText from '@/assets/icons/logo-text.svg?inline';
 import EmblemeReverse from '@/assets/icons/embleme-reverse.svg?inline';
 import ArrowRight from '@/assets/icons/arrow-right.svg?inline';
 import DownloadIcon from '@/assets/icons/download.svg?inline';
-
 import { Getters } from '@/lib/store/news/models';
 
-export default Vue.extend({
+export default defineComponent({
+  // @ts-ignore
   components: {
     IkntAnimation,
     IkntCarousel,
@@ -241,9 +243,7 @@ export default Vue.extend({
   },
 
   methods: {
-    humanizeDate(d: String) {
-      return d;
-    },
+    humanizeDate,
   }
 });
 </script>

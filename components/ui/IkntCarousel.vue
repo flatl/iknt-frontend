@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 import ArrowRight from '@/assets/icons/arrow-right.svg?inline';
 
 type CarouselComponent = Vue & {
@@ -31,7 +31,7 @@ type CarouselComponent = Vue & {
   next: Function;
 };
 
-export default Vue.extend({
+export default defineComponent({
   components: { ArrowRight },
 
   props: {
@@ -73,7 +73,7 @@ export default Vue.extend({
 
   mounted() {
     this.windowWidth = window.innerWidth;
-    window.addEventListener('resize', this.handleWindowResize); 
+    window.addEventListener('resize', this.handleWindowResize);
   },
 
   destroyed() {
